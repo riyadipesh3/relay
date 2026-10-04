@@ -1,0 +1,395 @@
+/* ============================================================================
+   TEMPLATE 08 - RELAY
+   Design read: B2B SaaS for operations handoffs. Dark instrument-panel
+   language, one electric blue accent, flat geometry, no glow anywhere.
+   Sans display throughout (Geist Variable). Mono for metadata only.
+
+   VARIANCE 6 / MOTION 5 / DENSITY 5
+
+   Theme lock: dark only. One accent (electric blue). One radius (10px), forced
+   globally with `*` so buttons, cards, inputs and images cannot drift apart.
+   No purple, no violet, no outer glow, no gradient text.
+   ========================================================================= */
+
+@import 'tailwindcss';
+
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+/* --------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Geist Variable', system-ui, sans-serif;
+  --font-body: 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+
+  /* Canvas is a cool near-black, never #000000. */
+  --color-canvas: #0a0a0b;
+  --color-surface: #111216;
+  --color-surface-2: #17181d;
+  --color-ink: #f2f3f5;
+  --color-body: #a9abb3;
+  --color-mute: #8a8c94;
+  --color-hairline: #24262d;
+  --color-accent: #3b82f6;
+  --color-accent-soft: #11203a;
+}
+
+/* One radius, locked on every element. */
+:root {
+  --radius: 10px;
+}
+
+* {
+  border-radius: var(--radius);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Accent fill with canvas text: 5.4:1, passes AA for small labels. */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-canvas);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   COMPONENTS
+   -------------------------------------------------------------------------- */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  .display-xl {
+    font-size: clamp(2.35rem, 5.2vw, 3.75rem);
+    line-height: 1;
+  }
+
+  .display-lg {
+    font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .display-md {
+    font-size: clamp(1.55rem, 2.6vw, 2.1rem);
+    line-height: 1.08;
+  }
+
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 62ch;
+    color: var(--color-body);
+  }
+
+  /* Small mono label above a section headline. Capped at one per three
+     sections across the page (three used, seven sections). */
+  .micro {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* Functional mono metadata. Not a micro label: never sits above a
+     section headline, so it does not count against the label budget. */
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--color-mute);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 0.8125rem 1.5rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease,
+      border-color 160ms ease, transform 120ms ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-canvas);
+  }
+
+  .btn-primary:hover {
+    background: #2f74ea;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-hairline);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* Image container. Real photographs only, never div-built product UI. */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+  }
+
+  .frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+  }
+
+  /* CSS-drawn patterns. Used instead of decoration built from divs. */
+  .pattern-grid {
+    background-color: var(--color-accent-soft);
+    background-image: linear-gradient(
+        to right,
+        rgba(59, 130, 246, 0.14) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(59, 130, 246, 0.14) 1px, transparent 1px);
+    background-size: 36px 36px;
+    border: 1px solid rgba(59, 130, 246, 0.24);
+  }
+
+  .pattern-stripe {
+    background-color: var(--color-surface);
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.045) 0 1px,
+      transparent 1px 10px
+    );
+    border: 1px solid var(--color-hairline);
+  }
+
+  .tint-soft {
+    background-color: var(--color-accent-soft);
+    border: 1px solid rgba(59, 130, 246, 0.24);
+  }
+
+  /* Pricing list marker: a CSS-drawn tick, not a decorative dot. */
+  .tick {
+    position: relative;
+    flex: none;
+    width: 9px;
+    height: 5px;
+    margin-top: 0.42em;
+    border-left: 1.5px solid var(--color-accent);
+    border-bottom: 1.5px solid var(--color-accent);
+    transform: rotate(-45deg);
+  }
+
+  /* Workflow stepper rail. A hairline with a node per step, not three cards. */
+  .rail {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 15px;
+    height: 1px;
+    background: var(--color-hairline);
+  }
+
+  /* Same rail, rotated for the stacked mobile stepper. */
+  .rail-v {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    bottom: 15px;
+    width: 1px;
+    background: var(--color-hairline);
+  }
+
+  @media (min-width: 768px) {
+    .rail-v {
+      display: none;
+    }
+  }
+
+  /* Escalation ladder inside a bento cell: nodes on a vertical hairline.
+     A diagram, not product UI: role names only, no fake readouts. */
+  .chain li {
+    position: relative;
+    padding: 0 0 1.5rem 1.75rem;
+    border-left: 1px solid var(--color-hairline);
+  }
+
+  .chain li:last-child {
+    padding-bottom: 0;
+    border-left-color: transparent;
+  }
+
+  .chain li::before {
+    content: '';
+    position: absolute;
+    left: -4.75px;
+    top: 0.35rem;
+    width: 8px;
+    height: 8px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-accent);
+  }
+
+  .chain li:last-child::before {
+    border-color: var(--color-mute);
+  }
+
+  .node {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+  }
+
+  .node-on {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  /* FAQ accordion, native details/summary so keyboard and AT work for free. */
+  .faq-q {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.375rem 0;
+    text-align: left;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    transition: color 160ms ease;
+  }
+
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-q:hover {
+    color: var(--color-accent);
+  }
+
+  .faq-plus {
+    position: relative;
+    flex: none;
+    width: 13px;
+    height: 13px;
+    margin-top: 0.3rem;
+  }
+
+  .faq-plus::before,
+  .faq-plus::after {
+    content: '';
+    position: absolute;
+    inset: 6px 0 auto 0;
+    height: 1.5px;
+    background: var(--color-accent);
+  }
+
+  .faq-plus::after {
+    transform: rotate(90deg);
+    transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  details[open] .faq-plus::after {
+    transform: rotate(0deg);
+  }
+
+  /* Scroll reveal. IntersectionObserver only, never a scroll listener. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .faq-plus::after {
+    transition: none;
+  }
+}
+
+@source "./**/*.{tsx,ts}";
